@@ -53,7 +53,7 @@ module TM_Ctags
     has_args = hit['args'].length > 0
     snippet = ""
     snippet << '(' if has_args || hit['type'] =~ /function|member/
-    snippet << " #{args_snippet(hit['args'])} " if has_args
+    snippet << "#{args_snippet(hit['args'])}" if has_args
     snippet << ')' if has_args || hit['type'] =~ /function|member/
     snippet << '$0'
   end
