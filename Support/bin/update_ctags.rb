@@ -69,7 +69,11 @@ ctags_bin = ENV['TM_BUNDLE_SUPPORT'] + '/bin/ctags'
   
 Dir.chdir(dir)
 
-TextMate.call_with_progress( :title => "TM Ctags", :message => "Tagging your project…", :indeterminate => true ) do
-  result = `#{filter}"#{ctags_bin}" #{args.join(' ')}`
-  puts "All done."
+if ENV['TM_TAG_IN_BACKGROUND'] == '1'
+  `#{filter}"#{ctags_bin}" #{args.join(' ')}`  
+else
+  TextMate.call_with_progress( :title => "TM Ctags", :message => "Tagging your project…", :indeterminate => true ) do
+    result = `#{filter}"#{ctags_bin}" #{args.join(' ')}`
+    puts "All done."
+  end
 end
