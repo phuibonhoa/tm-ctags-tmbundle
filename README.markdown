@@ -10,26 +10,26 @@ Update Project Tags
 
 Builds or updates the tag index in the root directory of your project. This is a prerequisite to running any of the other commands in this bundle and should be run as your project changes.
 
-This command will only work with a project or directory open in TextMate.
+I have a non-polling solution that indexes projects in the background (see below for more info)
 
-Jump to Current Tag
+Jump to Method Definition (Select from a list of methods if multiple matches)
 -------------------
 
-### ⌃]
+### ⌃] or ⌘+B
 
 Jumps to the file and line where the tag under the cursor is defined.
 
-Complete Tag
+Autocomplete Method (Select from a list of method(args) if multiple matches)
 ------------
 
-### ⌘< (⌘⇧,)
+### ⌘< or ⌃+Space
 
 Provides completions for the current word&mdash;including method/function arguments&mdash;pulling from the functions, methods, and classes defined in your project.
 
-Jump to Tag...
+Jump to Method Definition
 --------------
 
-### ⌘⇧P
+### ⌘⇧P or ⌘⌃+Space
 
 Prompts for a tag (or the start of a tag) and jumps to the file and line where that tag is defined.
 
@@ -61,3 +61,7 @@ Have your own ctags configuration? Save it to a file and point this shell variab
 **TM\_CTAGS\_RESULT\_LIMIT**
 
 Only 300 matching results are displayed by default. Use this setting to override this value.
+
+
+##Background Indexing
+I've come up with a solution that indexes my projects on change (rather than polling).  Only works on mac.  If you are interesting in setting this up, let me know and I can lend a hand when I get some free time.  I haven't yet devised a way to make this solution easily configurable / sharable.
