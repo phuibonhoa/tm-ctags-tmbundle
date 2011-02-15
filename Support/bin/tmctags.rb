@@ -5,6 +5,7 @@ require ENV['TM_SUPPORT_PATH'] + '/lib/exit_codes.rb'
 require ENV['TM_SUPPORT_PATH'] + '/lib/textmate.rb'
 
 require ENV['TM_BUNDLE_SUPPORT'] + '/lib/tm_ctags.rb'
+require ENV['TM_BUNDLE_SUPPORT'] + '/lib/backtrack.rb'
 
 # supporting old var for now
 ENV['TM_CTAGS_EXT_LIB'] ||= ENV['TM_CTAGS_EXTRA_LIB']
@@ -71,6 +72,8 @@ end
 hits = hits.sort_by { |h| h['file'] }.each_with_index {|h, i| h['index'] = i }
 
 TextMate.exit_show_tool_tip "Not found." if hits.length == 0
+
+TM_Ctags::Backtrack.push
 
 # Complete is done here if dialog 2 completion stuff is used
 if action == 'complete2'
