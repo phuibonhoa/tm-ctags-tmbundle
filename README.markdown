@@ -1,6 +1,17 @@
 TM Ctags
 ========
 
+##Description
+
+CTag support originally by [sbenhaim/tm-ctags-tmbundle](http://github.com/sbenhaim/tm-ctags-tmbundle).
+
+My additions to this bundle include:
+
+* Ability to backtrack.  When you jump to a method / class your current position is saved.  ⌘⇧+B will take you back to your previous location.
+* Support for background indexing
+* Rubymine keybindings
+
+
 ### Ctags code completion and navigation for TextMate.
 
 Update Project Tags
@@ -65,3 +76,14 @@ Only 300 matching results are displayed by default. Use this setting to override
 
 ##Background Indexing
 I've come up with a solution that indexes my projects on change (rather than polling).  Only works on mac.  If you are interesting in setting this up, let me know and I can lend a hand when I get some free time.  I haven't yet devised a way to make this solution easily configurable / sharable.
+
+
+##Credits
+
+
+![BookRenter.com Logo](http://assets0.bookrenter.com/images/header/bookrenter_logo.gif "BookRenter.com")
+
+Additions by [Philippe Huibonhoa](http://github.com/phuibonhoa) and funded by [BookRenter.com](http://www.bookrenter.com "BookRenter.com").
+
+
+Original bundle and it's contributors can be found [here](http://github.com/sbenhaim/tm-ctags-tmbundle)
