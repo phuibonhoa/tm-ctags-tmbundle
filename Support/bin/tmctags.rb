@@ -19,7 +19,7 @@ tag_files = []
 
 [ ENV['TM_PROJECT_DIRECTORY'], ENV['TM_CTAGS_EXT_LIB'] ].each do |dir|
   if dir && File.exists?( file = File.join( dir, ".tmtags" ) )
-    tag_files << file.downcase
+    tag_files << file
   end
 end
 
