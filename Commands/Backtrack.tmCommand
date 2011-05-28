@@ -13,7 +13,7 @@ TM_Ctags::Backtrack.go</string>
 	<key>input</key>
 	<string>selection</string>
 	<key>keyEquivalent</key>
-	<string>@B</string>
+	<string>^@B</string>
 	<key>name</key>
 	<string>Backtrack</string>
 	<key>output</key>
