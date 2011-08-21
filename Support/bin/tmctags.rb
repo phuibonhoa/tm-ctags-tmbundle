@@ -83,7 +83,7 @@ tag_files.each do |f|
   end
 end
 
-hits = hits.sort_by { |h| h['file'] }.each_with_index {|h, i| h['index'] = i }
+hits = hits.sort_by { |h| h['file'].index("#{ENV['TM_FILENAME']}:") == 0 ? "" : h['file'] }.each_with_index {|h, i| h['index'] = i }
 
 TextMate.exit_show_tool_tip "'#{word}' not found." if hits.length == 0
 
