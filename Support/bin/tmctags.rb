@@ -7,6 +7,19 @@ require ENV['TM_SUPPORT_PATH'] + '/lib/textmate.rb'
 require ENV['TM_BUNDLE_SUPPORT'] + '/lib/tm_ctags.rb'
 require ENV['TM_BUNDLE_SUPPORT'] + '/lib/backtrack.rb'
 
+# if current word is in a quoted string, returns full quoted string (w/out the quotes)
+def current_word
+  return nil unless ENV['TM_CURRENT_WORD']
+  string_regex = /(.*?)['"]/
+  string_start = ENV['TM_CURRENT_LINE'][0..(ENV['TM_LINE_INDEX'].to_i - 1)].reverse.match(string_regex)
+  string_start = string_start[1].reverse if string_start
+  string_end = ENV['TM_CURRENT_LINE'][ENV['TM_LINE_INDEX'].to_i..-1].match(string_regex)
+  string_end = string_end[1] if string_end
+  word = "#{string_start}#{string_end}" if string_start && string_end
+  word = ENV['TM_CURRENT_WORD'] unless word
+  word
+end
+
 # supporting old var for now
 ENV['TM_CTAGS_EXT_LIB'] ||= ENV['TM_CTAGS_EXTRA_LIB']
 
@@ -38,17 +51,17 @@ method = :goto
 
 case action
 when /complete/
-  word = ENV['TM_CURRENT_WORD'] || TextMate::exit_discard
-  regex = /^#{word}/i
+  word = current_word || TextMate::exit_discard
+  regex = /^#{Regexp.escape(word)}/i
   nib_title = "Completions"
   method = :build_snippet
 when 'find'
-  word = ENV['TM_CURRENT_WORD'] || TextMate::exit_discard
-  regex = /^#{word}[^\w]/
+  word = current_word || TextMate::exit_discard
+  regex = /^#{Regexp.escape(word)}[^\w]/
 when 'goto'
   word = TextMate::UI.request_string(:title => "Jump to Tag…", :prompt => "Tag")
   exit if word == nil
-  regex = /^#{word}/i
+  regex = /^#{Regexp.escape(word)}/i
 else
   exit
 end
@@ -62,6 +75,7 @@ tag_files.each do |f|
 
   tags.each do |line|
     hit = TM_Ctags::parse( line )
+    hit['signature'] = word unless hit['signature'].include?(word) # signature not including multiple words
     hit['f'] = File.dirname( f );
     hits << hit
     index += 1
@@ -71,7 +85,7 @@ end
 
 hits = hits.sort_by { |h| h['file'] }.each_with_index {|h, i| h['index'] = i }
 
-TextMate.exit_show_tool_tip "Not found." if hits.length == 0
+TextMate.exit_show_tool_tip "'#{word}' not found." if hits.length == 0
 
 TM_Ctags::Backtrack.push
 
@@ -87,7 +101,6 @@ if hits.length < 2
   TM_Ctags::act_on( hits[0], action )
   exit
 end
-
 
 # Multiple hits requires a dialog box
 result = %x{ "$DIALOG" -mc -p '#{{'hits' => hits, 'title' => nib_title}.to_plist.gsub("'", '"')}' "TM_Ctags.nib" | pl }

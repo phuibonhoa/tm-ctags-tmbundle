@@ -3,6 +3,12 @@
 require ENV['TM_SUPPORT_PATH'] + '/lib/textmate.rb'
 require ENV['TM_SUPPORT_PATH'] + '/lib/progress.rb'
 
+def exec_ctags(filter, ctags_bin, args)
+  `#{filter}"#{ctags_bin}" #{args.join(' ')}`
+  test_directories = Dir.glob('**/test').collect {|d| d.gsub(/test.*/, 'test') }.uniq
+  `#{filter}"#{ctags_bin}" --append=yes --recurse #{args.join(' ')} '#{test_directories.join("\' \'")}'` unless test_directories.empty?
+end
+
 # supporting old var for now
 ENV['TM_CTAGS_EXT_LIB'] ||= ENV['TM_CTAGS_EXTRA_LIB']
 
@@ -36,8 +42,10 @@ else
     "--regex-PHP='/(public |static |abstract |protected |private )+function ([^ (]*)/\2/f/'",
     "--JavaScript-kinds=+cf",
     "--regex-JavaScript='/(\w+) ?: ?function/\1/f/'",
+    "--Ruby-kinds=+f",
+    %q(--regex-Ruby='/^[ \t]*(share_should|share_context|share_setup)[ \(]+['\''"](.*)['\''"]/\2/shared_should/'), # add a closing paren for TM parsing -- )
     ]
-    
+
   filter = ""
   
   includes = ENV['TM_CTAGS_INCLUDES']
@@ -70,10 +78,10 @@ ctags_bin = ENV['TM_BUNDLE_SUPPORT'] + '/bin/ctags'
 Dir.chdir(dir)
 
 if ENV['TM_TAG_IN_BACKGROUND'] == '1'
-  `#{filter}"#{ctags_bin}" #{args.join(' ')}`  
+  exec_ctags(filter, ctags_bin, args)
 else
   TextMate.call_with_progress( :title => "TM Ctags", :message => "Tagging your project…", :indeterminate => true ) do
-    result = `#{filter}"#{ctags_bin}" #{args.join(' ')}`
+    exec_ctags(filter, ctags_bin, args)
     puts "All done."
   end
 end
