@@ -10,11 +10,13 @@ require ENV['TM_BUNDLE_SUPPORT'] + '/lib/backtrack.rb'
 # if current word is in a quoted string, returns full quoted string (w/out the quotes)
 def current_word
   return nil unless ENV['TM_CURRENT_WORD']
-  string_regex = /(.*)['"]/
-  string_start = ENV['TM_CURRENT_LINE'][0..(ENV['TM_LINE_INDEX'].to_i - 1)].reverse.match(string_regex)
-  string_start = string_start[1].reverse if string_start
-  string_end = ENV['TM_CURRENT_LINE'][ENV['TM_LINE_INDEX'].to_i..-1].match(string_regex)
-  string_end = string_end[1] if string_end
+  string_start_match = ENV['TM_CURRENT_LINE'][0..(ENV['TM_LINE_INDEX'].to_i - 1)].reverse.match(/(.*)(['"])/)
+  if string_start_match
+    string_start = string_start_match[1].reverse
+    quote_char = string_start_match[2]
+    string_end_match = ENV['TM_CURRENT_LINE'][ENV['TM_LINE_INDEX'].to_i..-1].match(/(.*?)#{quote_char}/)
+    string_end = string_end_match[1] if string_end_match
+  end
   word = "#{string_start}#{string_end}" if string_start && string_end
   word = ENV['TM_CURRENT_WORD'] unless word
   word
