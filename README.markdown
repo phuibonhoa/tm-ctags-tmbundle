@@ -10,7 +10,8 @@ My additions to this bundle include:
 * Ability to backtrack.  When you jump to a method / class your current position is saved.  ⌘⇧+B will take you back to your previous location.
 * Support for background indexing
 * Rubymine keybindings
-
+* Indexing of Factory_Girl Factories (by [Dan Luchi](http://github.com/danluchi))
+* Indexing of Shared Shoulds, Setups and Contexts (by [Michael G Pearce](http://github.com/michaelgpearce))
 
 ### Ctags code completion and navigation for TextMate.
 
@@ -83,7 +84,7 @@ I've come up with a solution that indexes my projects on change (rather than pol
 
 ![BookRenter.com Logo](http://assets0.bookrenter.com/images/header/bookrenter_logo.gif "BookRenter.com")
 
-Additions by [Philippe Huibonhoa](http://github.com/phuibonhoa) and funded by [BookRenter.com](http://www.bookrenter.com "BookRenter.com").
+Additions by [Philippe Huibonhoa](http://github.com/phuibonhoa), [Dan Luchi](http://github.com/danluchi) and [Michael G Pearce](http://github.com/michaelgpearce). Funded by [BookRenter.com](http://www.bookrenter.com "BookRenter.com").
 
 
 Original bundle and it's contributors can be found [here](http://github.com/sbenhaim/tm-ctags-tmbundle)
