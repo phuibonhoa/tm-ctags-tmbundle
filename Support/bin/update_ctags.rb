@@ -43,6 +43,7 @@ else
     "--JavaScript-kinds=+cf",
     "--regex-JavaScript='/(\w+) ?: ?function/\1/f/'",
     "--Ruby-kinds=+f",
+    %q(--regex-Ruby='/^[ \t]*(Factory.define)[ \(]+:(.*)\)/\2/factory/'),
     %q(--regex-Ruby='/^[ \t]*(share_should|share_context|share_setup)[ \(]+['\''"](.*)['\''"]/\2/shared_should/'), # add a closing paren for TM parsing -- )
     ]
 
