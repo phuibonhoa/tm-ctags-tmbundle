@@ -75,8 +75,7 @@ hits = []
 index = 1
 
 tag_files.each do |f|
-  File.read( f ) =~ regex
-  tags = $~.to_a
+  tags = File.read( f ).split("\n").grep(regex)
   tags.each do |line|
     hit = TM_Ctags::parse( line )
     hit['signature'] = word unless hit['signature'].include?(word) # signature not including multiple words
