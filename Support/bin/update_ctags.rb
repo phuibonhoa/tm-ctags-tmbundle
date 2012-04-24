@@ -1,4 +1,5 @@
 #!/usr/bin/env ruby
+# encoding: UTF-8
 
 require ENV['TM_SUPPORT_PATH'] + '/lib/textmate.rb'
 require ENV['TM_SUPPORT_PATH'] + '/lib/progress.rb'

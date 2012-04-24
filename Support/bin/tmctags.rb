@@ -1,4 +1,5 @@
 #!/usr/bin/env ruby
+# encoding: UTF-8
 
 require ENV['TM_SUPPORT_PATH'] + '/lib/ui.rb'
 require ENV['TM_SUPPORT_PATH'] + '/lib/exit_codes.rb'
@@ -24,6 +25,7 @@ end
 
 # supporting old var for now
 ENV['TM_CTAGS_EXT_LIB'] ||= ENV['TM_CTAGS_EXTRA_LIB']
+
 
 unless ENV['TM_PROJECT_DIRECTORY'] || ENV['TM_CTAGS_EXT_LIB']
   TextMate.exit_show_tool_tip "You must be working with a project or using TM_CTAGS_EXT_LIB to use TM Ctags."
@@ -73,8 +75,8 @@ hits = []
 index = 1
 
 tag_files.each do |f|
-  tags = File.read( f ).grep( regex )
-
+  File.read( f ) =~ regex
+  tags = $~.to_a
   tags.each do |line|
     hit = TM_Ctags::parse( line )
     hit['signature'] = word unless hit['signature'].include?(word) # signature not including multiple words

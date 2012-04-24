@@ -1,3 +1,5 @@
+# encoding: UTF-8
+
 module TM_Ctags
   module_function
   
