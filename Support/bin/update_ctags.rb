@@ -34,7 +34,7 @@ if File.exist? "#{ENV['TM_CTAGS_OPTIONS']}"
   args = ["--options='#{ENV['TM_CTAGS_OPTIONS']}'"]
 
 else
-  
+
   args = [
     "--excmd=pattern",
     "--PHP-kinds=+cfi-v",
@@ -45,21 +45,22 @@ else
     "--regex-JavaScript='/(\w+) ?: ?function/\1/f/'",
     "--Ruby-kinds=+f",
     %q(--regex-Ruby='/^[ \t]*(Factory.define)[ \(]+:(.*)\)/\2/factory/'),
+    %q(--regex-Ruby='/^[ \t]*(factory)[ \(]+:(.*)/\2/factory/'), # add a closing paren for TM parsing -- )
     %q(--regex-Ruby='/^[ \t]*(share_should|share_context|share_setup)[ \(]+['\''"](.*)['\''"]/\2/shared_should/'), # add a closing paren for TM parsing -- )
     ]
 
   filter = ""
-  
+
   includes = ENV['TM_CTAGS_INCLUDES']
-  
+
   if includes
     includes = includes.split(' ').join("' -or -iname '")
     filter = "find . -iname '#{includes}' | "
     args << "-L -"
   else
     args << "-R"
-    
-    standard_excludes = %w{.git .svn .cvs}
+
+    standard_excludes = %w{.git .svn .cvs *.js}
 
     user_excludes = []
     user_excludes = ENV['TM_CTAGS_EXCLUDES'].split(' ') if ENV['TM_CTAGS_EXCLUDES']
@@ -70,13 +71,13 @@ else
 
     args += excludes
   end
-    
+
 end
 
 args += base_args
-  
+
 ctags_bin = ENV['TM_BUNDLE_SUPPORT'] + '/bin/ctags'
-  
+
 Dir.chdir(dir)
 
 if ENV['TM_TAG_IN_BACKGROUND'] == '1'
