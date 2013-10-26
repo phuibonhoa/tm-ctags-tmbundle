@@ -1,4 +1,4 @@
-#!/usr/bin/env ruby
+#!/System/Library/Frameworks/Ruby.framework/Versions/1.8/usr/bin/ruby
 # encoding: UTF-8
 
 require ENV['TM_SUPPORT_PATH'] + '/lib/ui.rb'
@@ -111,10 +111,10 @@ result = %x{ "$DIALOG" -mc -p '#{{'hits' => hits, 'title' => nib_title}.to_plist
 result = OSX::PropertyList.load(result)
 
 if result['result']
-  
+
   hit = result['result']['returnArgument'][0]
   TM_Ctags::act_on( hit, action )
-  
+
 else
   TextMate::exit_discard
 end
