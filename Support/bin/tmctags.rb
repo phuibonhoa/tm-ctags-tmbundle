@@ -9,7 +9,8 @@ require ENV['TM_BUNDLE_SUPPORT'] + '/lib/tm_ctags.rb'
 require ENV['TM_BUNDLE_SUPPORT'] + '/lib/backtrack.rb'
 
 # if current word is in a quoted string, returns full quoted string (w/out the quotes)
-def current_word
+def current_word  
+  return ENV['TM_SELECTED_TEXT'] if ENV['TM_SELECTED_TEXT']
   return nil unless ENV['TM_CURRENT_WORD']
   string_start_match = ENV['TM_CURRENT_LINE'][0..(ENV['TM_LINE_INDEX'].to_i - 1)].reverse.match(/(.*)(['"])/)
   if string_start_match
